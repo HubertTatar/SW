@@ -1,4 +1,4 @@
-package io.huta.application;
+package io.huta.application.hi;
 
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
