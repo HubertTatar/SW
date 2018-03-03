@@ -6,6 +6,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.web.reactive.function.server.RequestPredicates.method;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 
 public class HiRoutes {
 
@@ -16,6 +17,7 @@ public class HiRoutes {
     }
 
     public RouterFunction<ServerResponse> routes() {
-        return route(method(GET), request -> hiHandler.handle(request));
+        return route(GET("/{id}"), hiHandler::getById)
+                .andRoute(method(GET), hiHandler::respondWith200);
     }
 }

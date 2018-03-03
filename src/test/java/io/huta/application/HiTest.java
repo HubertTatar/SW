@@ -4,10 +4,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HiTest extends TestBase {
@@ -23,8 +19,20 @@ class HiTest extends TestBase {
                 .get()
                 .uri("/hi")
                 .exchange()
-                .expectStatus().is2xxSuccessful();
+                .expectStatus()
+                .is2xxSuccessful();
     }
+
+    @Test
+    void shouldGet404() {
+        webClient
+                .get()
+                .uri("/hi/1")
+                .exchange()
+                .expectStatus()
+                .is4xxClientError();
+    }
+
 
     @AfterAll
     void afterAll() {

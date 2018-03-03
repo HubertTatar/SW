@@ -8,17 +8,17 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import static org.springframework.web.reactive.function.server.RequestPredicates.path;
 import static org.springframework.web.reactive.function.server.RouterFunctions.nest;
 
-public class Routes {
+class Routes {
 
     private final HiRoutes hiRoutes;
     private final ApplicationRoutes applicationRoutes;
 
-    public Routes(HiRoutes hiRoutes, ApplicationRoutes applicationRoutes) {
+    Routes(HiRoutes hiRoutes, ApplicationRoutes applicationRoutes) {
         this.hiRoutes = hiRoutes;
         this.applicationRoutes = applicationRoutes;
     }
 
-    public RouterFunction<ServerResponse> routes() {
+    RouterFunction<ServerResponse> routes() {
         return nest(path("/hi"), hiRoutes.routes())
                 .andNest(path("/application"), applicationRoutes.routes());
     }
