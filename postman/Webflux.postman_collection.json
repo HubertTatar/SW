@@ -1,0 +1,60 @@
+{
+	"info": {
+		"name": "Webflux",
+		"_postman_id": "650b1342-d7ec-dad9-65da-a097a32e402e",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "hi - list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/hi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hi"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "hi - post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"ads4\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/hi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hi"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

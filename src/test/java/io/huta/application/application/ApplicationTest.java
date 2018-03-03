@@ -1,5 +1,6 @@
-package io.huta.application;
+package io.huta.application.application;
 
+import io.huta.application.TestBase;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ class ApplicationTest extends TestBase {
 
     @BeforeAll
     void beforeAll() {
-        server.start();
+        startServer();
     }
 
     @Test
@@ -24,7 +25,7 @@ class ApplicationTest extends TestBase {
 
     @AfterAll
     void afterAll() {
-        server.stop();
+        stopServer();
     }
 
 }

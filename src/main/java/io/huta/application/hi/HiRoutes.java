@@ -3,7 +3,9 @@ package io.huta.application.hi;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.web.reactive.function.server.RequestPredicates.method;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
@@ -18,6 +20,8 @@ public class HiRoutes {
 
     public RouterFunction<ServerResponse> routes() {
         return route(GET("/{id}"), hiHandler::getById)
-                .andRoute(method(GET), hiHandler::respondWith200);
+                .andRoute(method(GET), hiHandler::listAll)
+                .andRoute(method(POST), hiHandler::put)
+                .andRoute(method(DELETE), hiHandler::delete);
     }
 }

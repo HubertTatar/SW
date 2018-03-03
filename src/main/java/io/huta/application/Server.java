@@ -3,6 +3,7 @@ package io.huta.application;
 import io.huta.application.application.ApplicationHandler;
 import io.huta.application.application.ApplicationRoutes;
 import io.huta.application.hi.HiHandler;
+import io.huta.application.hi.HiInMemoryRepository;
 import io.huta.application.hi.HiRoutes;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.http.server.reactive.HttpHandler;
@@ -18,19 +19,16 @@ class Server {
     private final HttpHandler httpHandler;
     private final HttpServer httpServer;
     private BlockingNettyContext nettyContext;
-    private HiHandler hiHandler;
-    private HiRoutes hiRoutes;
-    private ApplicationRoutes applicationRoutes;
-    private ApplicationHandler applicationHandler;
     private Routes routes;
 
     Server(int port) {
         GenericApplicationContext applicationContext = new GenericApplicationContext();
 
-        hiHandler = new HiHandler();
-        hiRoutes = new HiRoutes(hiHandler);
-        applicationHandler = new ApplicationHandler();
-        applicationRoutes = new ApplicationRoutes(applicationHandler);
+        HiInMemoryRepository hiInMemoryRepository = new HiInMemoryRepository();
+        HiHandler hiHandler = new HiHandler(hiInMemoryRepository);
+        HiRoutes hiRoutes = new HiRoutes(hiHandler);
+        ApplicationHandler applicationHandler = new ApplicationHandler();
+        ApplicationRoutes applicationRoutes = new ApplicationRoutes(applicationHandler);
         routes = new Routes(hiRoutes, applicationRoutes);
 
         applicationContext.registerBean("webHandler", WebHandler.class, () -> RouterFunctions.toWebHandler(routes.routes()));
