@@ -21,11 +21,11 @@ public class HiHandler {
     }
 
     public Mono<ServerResponse> getById(ServerRequest request) {
-        Mono<String> id1 = Mono.justOrEmpty(request.queryParam("id"));
+        Mono<String> id1 = Mono.justOrEmpty(request.pathVariable("id"));
         return id1
                 .map(Integer::parseInt)
                 .map(id -> repository.getById(id))
-                .flatMap(hi -> ServerResponse.ok().contentType(APPLICATION_JSON).body(fromObject(hi)))
+                .flatMap(hi -> ServerResponse.ok().contentType(APPLICATION_JSON).body(hi, Hi.class))
                 .defaultIfEmpty(ServerResponse.notFound().build().block());
     }
 
@@ -36,10 +36,10 @@ public class HiHandler {
     }
 
     public Mono<ServerResponse> delete(ServerRequest request) {
-        Mono<String> id1 = Mono.justOrEmpty(request.queryParam("id"));
+        Mono<String> id1 = Mono.justOrEmpty(request.pathVariable("id"));
         return id1
                 .map(Integer::parseInt)
-                .map(id -> repository.delete(id))
+                .flatMap(id -> repository.delete(id))
                 .flatMap(hi -> ServerResponse.noContent().build())
                 .defaultIfEmpty(ServerResponse.notFound().build().block());
     }

@@ -27,7 +27,7 @@ class HiTest extends TestBase {
                 .is2xxSuccessful();
     }
 
-    @Test
+//    @Test
     void shouldGet404() {
         webClient
                 .get()
@@ -37,7 +37,7 @@ class HiTest extends TestBase {
                 .is4xxClientError();
     }
 
-    @Test
+//    @Test
     void shouldDelete404() {
         webClient
                 .delete()
@@ -63,7 +63,7 @@ class HiTest extends TestBase {
         assertTrue(testName.getName().equals("testName"));
     }
 
-    @Test//Fixme
+    @Test
     void shouldGetHi() {
         Hi hi = webClient
                 .post()
@@ -86,7 +86,7 @@ class HiTest extends TestBase {
                 .expectBody(Hi.class);
     }
 
-    @Test//Fixme
+    @Test
     void shouldDelete() {
         Hi hi = webClient
                 .post()
