@@ -26,19 +26,13 @@ public class HiHandler {
     }
 
     public Mono<ServerResponse> getById(ServerRequest request) {
-//        Mono<String> id1 = Mono.justOrEmpty(request.pathVariable("id"));
-        Integer id = Integer.valueOf(request.pathVariable("id"));
-        Mono<Hi> hiMono = repository.getById(id);
-
-        return hiMono.flatMap(hi -> ServerResponse.ok().contentType(APPLICATION_JSON).syncBody(hi))
-         .switchIfEmpty(ServerResponse.notFound().build());
-//
-//        return id1
-//                .map(Integer::parseInt)
-//                .map(id -> repository.getById(id))
-//                .flatMap(hi -> ServerResponse.ok().contentType(APPLICATION_JSON).body(hi, Hi.class))
-//                .switchIfEmpty(ServerResponse.notFound().build())
-//                .subscribeOn(Schedulers.fromExecutorService(executorService));
+        Mono<String> id1 = Mono.justOrEmpty(request.pathVariable("id"));
+        return id1
+                .map(Integer::parseInt)
+                .flatMap(id -> repository.getById(id))
+                .flatMap(hi -> ServerResponse.ok().contentType(APPLICATION_JSON).syncBody(hi))
+                .switchIfEmpty(ServerResponse.notFound().build())
+                .subscribeOn(Schedulers.fromExecutorService(executorService));
     }
 
     public Mono<ServerResponse> put(ServerRequest request) {
