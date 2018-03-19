@@ -20,7 +20,6 @@ class Server {
     private final HttpHandler httpHandler;
     private final HttpServer httpServer;
     private BlockingNettyContext nettyContext;
-    private Routes routes;
 
     Server(int port) {
 
@@ -32,7 +31,7 @@ class Server {
         ApplicationHandler applicationHandler = new ApplicationHandler();
         ApplicationRoutes applicationRoutes = new ApplicationRoutes(applicationHandler);
 
-        routes = new Routes(hiRoutes, applicationRoutes);
+        Routes routes = new Routes(hiRoutes, applicationRoutes);
 
         this.httpHandler = toHttpHandler(routes.routes());
         this.httpServer = HttpServer.create(port);
