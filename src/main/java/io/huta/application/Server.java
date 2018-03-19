@@ -14,6 +14,9 @@ import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 import reactor.ipc.netty.http.server.HttpServer;
 import reactor.ipc.netty.tcp.BlockingNettyContext;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 class Server {
 
     private final HttpHandler httpHandler;
@@ -24,8 +27,11 @@ class Server {
     Server(int port) {
         GenericApplicationContext applicationContext = new GenericApplicationContext();
 
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+
         HiInMemoryRepository hiInMemoryRepository = new HiInMemoryRepository();
-        HiHandler hiHandler = new HiHandler(hiInMemoryRepository);
+        HiHandler hiHandler = new HiHandler(hiInMemoryRepository, executorService);
         HiRoutes hiRoutes = new HiRoutes(hiHandler);
         ApplicationHandler applicationHandler = new ApplicationHandler();
         ApplicationRoutes applicationRoutes = new ApplicationRoutes(applicationHandler);

@@ -27,7 +27,7 @@ class HiTest extends TestBase {
                 .is2xxSuccessful();
     }
 
-//    @Test
+    @Test
     void shouldGet404() {
         webClient
                 .get()
@@ -37,7 +37,7 @@ class HiTest extends TestBase {
                 .is4xxClientError();
     }
 
-//    @Test
+    @Test
     void shouldDelete404() {
         webClient
                 .delete()

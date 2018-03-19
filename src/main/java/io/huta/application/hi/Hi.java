@@ -1,9 +1,6 @@
 package io.huta.application.hi;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Wither;
 
 @Getter
@@ -13,6 +10,7 @@ import lombok.experimental.Wither;
 class Hi {
     @Wither
     private Integer id;
+    @Wither
     private String name;
 
 }

@@ -15,3 +15,11 @@ http://www.baeldung.com/spring-security-5-reactive
 https://github.com/spring-projects/spring-framework/blob/master/src/docs/asciidoc/web/webflux-functional.adoc
 https://github.com/sdeleuze/spring-kotlin-functional
 http://javasampleapproach.com/spring-framework/spring-webflux/springboot-webflux-functional-restapis
+
+https://www.infoq.com/articles/Refactoring-Reactive-JDBC
+https://www.infoq.com/presentations/saga-microservices?utm_campaign=rightbar_v2&utm_source=infoq&utm_medium=presentations_link&utm_content=link_text
+
+https://stackoverflow.com/questions/25309748/what-is-thread-stack-size-option-xss-given-to-jvm-why-does-it-have-a-limit-of/25318740#25318740
+https://stackoverflow.com/questions/36898701/how-does-java-jvm-allocate-stack-for-each-thread
+https://docs.oracle.com/cd/E13150_01/jrockit_jvm/jrockit/geninfo/diagnos/garbage_collect.html
+https://www.journaldev.com/2856/java-jvm-memory-model-memory-management-in-java
