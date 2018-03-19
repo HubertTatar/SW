@@ -1,0 +1,1 @@
+Simple WebFlux app without annotations.
