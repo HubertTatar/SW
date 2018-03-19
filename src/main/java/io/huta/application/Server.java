@@ -5,14 +5,12 @@ import io.huta.application.application.ApplicationRoutes;
 import io.huta.application.hi.HiHandler;
 import io.huta.application.hi.HiInMemoryRepository;
 import io.huta.application.hi.HiRoutes;
-import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter;
-import org.springframework.web.reactive.function.server.RouterFunctions;
-import org.springframework.web.server.WebHandler;
-import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 import reactor.ipc.netty.http.server.HttpServer;
 import reactor.ipc.netty.tcp.BlockingNettyContext;
+
+import static org.springframework.web.reactive.function.server.RouterFunctions.toHttpHandler;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,8 +23,6 @@ class Server {
     private Routes routes;
 
     Server(int port) {
-        GenericApplicationContext applicationContext = new GenericApplicationContext();
-
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
@@ -35,16 +31,11 @@ class Server {
         HiRoutes hiRoutes = new HiRoutes(hiHandler);
         ApplicationHandler applicationHandler = new ApplicationHandler();
         ApplicationRoutes applicationRoutes = new ApplicationRoutes(applicationHandler);
+
         routes = new Routes(hiRoutes, applicationRoutes);
 
-        applicationContext.registerBean("webHandler", WebHandler.class, () -> RouterFunctions.toWebHandler(routes.routes()));
-        applicationContext.refresh();
-
-
+        this.httpHandler = toHttpHandler(routes.routes());
         this.httpServer = HttpServer.create(port);
-        this.httpHandler = WebHttpHandlerBuilder
-                .applicationContext(applicationContext)
-                .build();
     }
 
     void start() {
