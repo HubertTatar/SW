@@ -14,6 +14,11 @@ https://docs.spring.io/spring/docs/5.0.0.BUILD-SNAPSHOT/spring-framework-referen
 http://www.baeldung.com/spring-security-5-reactive
 https://github.com/spring-projects/spring-framework/blob/master/src/docs/asciidoc/web/webflux-functional.adoc
 https://github.com/sdeleuze/spring-kotlin-functional
+https://medium.com/@hantsy/reactive-programming-with-spring-5-3bfc5d324ba0
+http://blog.monkey.codes/how-to-build-a-chat-app-using-webflux-websockets-react/
+http://www.baeldung.com/spring-5-reactive-websockets
+
+
 http://javasampleapproach.com/spring-framework/spring-webflux/springboot-webflux-functional-restapis
 
 https://www.infoq.com/articles/Refactoring-Reactive-JDBC

@@ -1,10 +1,7 @@
 package io.huta.application.hi;
 
 import io.huta.application.TestBase;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -47,6 +44,17 @@ class HiTest extends TestBase {
                 .is4xxClientError();
     }
 
+    @Disabled
+    @Test
+    void shouldNotBe500() {
+        webClient
+                .get()
+                .uri("/hi/trlalala")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful();
+    }
+
     @Test
     void shouldCreateHi() {
         Hi testName = webClient
@@ -61,6 +69,21 @@ class HiTest extends TestBase {
                 .getResponseBody();
 
         assertTrue(testName.getName().equals("testName"));
+    }
+
+    @Disabled
+    @Test
+    void shouldNotCreateGracefully() {
+        Hi testName = webClient
+                .post()
+                .uri("/hi")
+                .body(BodyInserters.fromObject(new IWillBreakYouCommand("are you", "dead yet?")))
+                .exchange()
+                .expectStatus()
+                .is4xxClientError()
+                .expectBody(Hi.class)
+                .returnResult()
+                .getResponseBody();
     }
 
     @Test
