@@ -1,6 +1,7 @@
 package io.huta.application.hi;
 
 import io.huta.application.infra.Repository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -11,6 +12,7 @@ import java.util.concurrent.ExecutorService;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.BodyInserters.fromObject;
 
+@Slf4j
 public class HiHandler {
 
     private Repository<Hi> repository;
@@ -26,6 +28,7 @@ public class HiHandler {
     }
 
     public Mono<ServerResponse> getById(ServerRequest request) {
+        log.debug("getById");
         Mono<String> id1 = Mono.justOrEmpty(request.pathVariable("id"));
         return id1
                 .map(Integer::parseInt)
@@ -36,6 +39,19 @@ public class HiHandler {
     }
 
     public Mono<ServerResponse> put(ServerRequest request) {
+        log.debug("put");
+        Mono<CreateHiCommand> cmdMono = request.bodyToMono(CreateHiCommand.class);
+        return cmdMono
+                .flatMap(cmd -> repository.save(cmd.toHi()))
+                .flatMap(saved -> ServerResponse
+                        .accepted()
+                        .contentType(APPLICATION_JSON)
+                        .body(fromObject(saved))
+                .subscribeOn(Schedulers.fromExecutorService(executorService)));
+    }
+
+    public Mono<ServerResponse> put2(ServerRequest request) {
+        log.debug("put");
         Mono<CreateHiCommand> cmdMono = request.bodyToMono(CreateHiCommand.class);
         return cmdMono
                 .flatMap(cmd -> save(cmd.toHi()))
@@ -43,6 +59,7 @@ public class HiHandler {
     }
 
     public Mono<ServerResponse> delete(ServerRequest request) {
+        log.debug("delete");
         Mono<String> id1 = Mono.justOrEmpty(request.pathVariable("id"));
         return id1
                 .map(Integer::parseInt)
@@ -53,6 +70,7 @@ public class HiHandler {
     }
 
     public Mono<ServerResponse> listAll(ServerRequest request) {
+        log.debug("listAll");
         return ServerResponse
                 .ok()
                 .contentType(APPLICATION_JSON)
@@ -66,7 +84,7 @@ public class HiHandler {
                         .accepted()
                         .contentType(APPLICATION_JSON)
                         .body(fromObject(saved))
-                ).subscribeOn(Schedulers.fromExecutorService(executorService));
+                );
     }
 
 }

@@ -5,6 +5,7 @@ import io.huta.application.application.ApplicationRoutes;
 import io.huta.application.hi.HiHandler;
 import io.huta.application.hi.HiInMemoryRepository;
 import io.huta.application.hi.HiRoutes;
+import io.huta.application.infra.SimpleThreadFactoryBuilder;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter;
 import reactor.ipc.netty.http.server.HttpServer;
@@ -14,8 +15,10 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.t
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
-class Server {
+public class Server {
 
     private final HttpHandler httpHandler;
     private final HttpServer httpServer;
@@ -23,7 +26,13 @@ class Server {
 
     Server(int port) {
 
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        ThreadFactory serviceThreadFactory = new SimpleThreadFactoryBuilder()
+                .deamon(false)
+                .nameFormat("service-%d-pool")
+                .priority(Thread.NORM_PRIORITY)
+                .build();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10, serviceThreadFactory);
 
         HiInMemoryRepository hiInMemoryRepository = new HiInMemoryRepository();
         HiHandler hiHandler = new HiHandler(hiInMemoryRepository, executorService);
@@ -52,6 +61,5 @@ class Server {
     public static void main(String[] args) {
         new Server(8080).startAndAwait();
     }
-
 
 }
